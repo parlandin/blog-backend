@@ -1,5 +1,5 @@
 import { Router } from "express";
-import dayRoute from "@routes/dayWord.route";
+import dayRoute from "./dayWord.route";
 
 const allRoutes = Router();
 

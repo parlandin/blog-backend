@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getWordOfDay } from "@/scrappers/getWordOfDay";
+import { getWordOfDay } from "../scrappers/getWordOfDay";
 
 export const getWordOfDayJsonController = async (
   req: Request,

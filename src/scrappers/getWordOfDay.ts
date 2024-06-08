@@ -3,7 +3,7 @@ import * as cheerio from "cheerio";
 import {
   createWordOfTheDay,
   getWordOfTheDay,
-} from "@repository/wordOfTheDay.repository";
+} from "../repository/wordOfTheDay.repository";
 
 const getDateForText = (string: string) => {
   const regex = /\((\d{2}\/\d{2}\/\d{4})\)/;
