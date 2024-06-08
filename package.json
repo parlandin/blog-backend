@@ -11,7 +11,10 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --name init",
     "prisma:studio": "prisma studio",
-    "vercel-build": "npx prisma migrate deploy"
+    "vercel-build": "npx prisma migrate deploy",
+    "build": "tsc",
+    "start": "node dist/index.js"
+
   },
   "dependencies": {
     "@prisma/client": "^5.15.0",
