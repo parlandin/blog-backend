@@ -10,7 +10,10 @@ export const getWordOfDayJsonController = async (
 
     const { image, ...rest } = data;
 
-    res.json(rest);
+    res.json({
+      ...rest,
+      credits: "todos os direitos de: https://www.dicio.com.br/",
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Erro ao buscar palavra do dia");
