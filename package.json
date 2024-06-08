@@ -13,6 +13,7 @@
     "prisma:studio": "prisma studio",
     "vercel-build": "npx prisma migrate deploy",
     "build": "tsc",
+    "postinstall": "yarn run build",
     "start": "node dist/index.js"
 
   },
