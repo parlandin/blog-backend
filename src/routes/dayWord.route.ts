@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   getWordOfDayImageController,
   getWordOfDayJsonController,
-} from "@controller/wordOfTheDay.controller";
+} from "../controller/wordOfTheDay.controller";
 
 const dayRoute = Router();
 
