@@ -17,11 +17,11 @@ const getDateForText = (string: string) => {
 };
 
 function getCurrentDate(): string {
-  const today = new Date();
-
-  const day = String(today.getDate()).padStart(2, "0");
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // Janeiro é 0!
-  const year = today.getFullYear();
+  const today = new Date().toLocaleString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+  });
+  const [date] = today.split(", ");
+  const [day, month, year] = date.split("/");
 
   return `${day}/${month}/${year}`;
 }
@@ -39,11 +39,9 @@ async function paseImageToBase64(image: string): Promise<string | null> {
 
 export const getWordOfDay = async () => {
   const currentDate = getCurrentDate();
+  console.log("Data atual:", currentDate);
 
   const wordOfTheDay = await getWordOfTheDay(currentDate);
-
-  console.log("Data atual", currentDate);
-  console.log("Palavra do dia encontrada no banco de dados", wordOfTheDay);
 
   if (wordOfTheDay) {
     console.log("Palavra do dia encontrada no banco de dados");
