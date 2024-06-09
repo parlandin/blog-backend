@@ -42,6 +42,9 @@ export const getWordOfDay = async () => {
 
   const wordOfTheDay = await getWordOfTheDay(currentDate);
 
+  console.log("Data atual", currentDate);
+  console.log("Palavra do dia encontrada no banco de dados", wordOfTheDay);
+
   if (wordOfTheDay) {
     console.log("Palavra do dia encontrada no banco de dados");
     return wordOfTheDay;
