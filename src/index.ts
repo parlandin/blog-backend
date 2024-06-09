@@ -1,9 +1,10 @@
 import express from "express";
 import allRoutes from "./routes/allRoutes.route";
 import cors from "./middlewares/cors";
+import { envConfig } from "./configs/env.config";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = envConfig.PORT;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

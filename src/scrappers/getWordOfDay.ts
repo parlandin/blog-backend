@@ -4,6 +4,11 @@ import {
   createWordOfTheDay,
   getWordOfTheDay,
 } from "../repository/wordOfTheDay.repository";
+import { envConfig } from "../configs/env.config";
+
+const {
+  SCRAPPER: { WORD_OF_DAY_URL },
+} = envConfig;
 
 const getDateForText = (string: string) => {
   const regex = /\((\d{2}\/\d{2}\/\d{4})\)/;
@@ -54,9 +59,7 @@ export const getWordOfDay = async () => {
 
   // se a data atual não estiver no banco de dados, buscar no site e salvar no banco de dados
 
-  const { data: html } = await axios.get(
-    "https://www.dicio.com.br/palavra-do-dia/"
-  );
+  const { data: html } = await axios.get(WORD_OF_DAY_URL);
 
   const $ = cheerio.load(html);
 
