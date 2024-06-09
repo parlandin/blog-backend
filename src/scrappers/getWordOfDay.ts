@@ -87,7 +87,7 @@ export const getWordOfDay = async () => {
 
   //salva no banco de dados
   const wordOfTheDayData = {
-    date: date || currentDate,
+    date: currentDate,
     word,
     sub,
     meanings: meanings,
