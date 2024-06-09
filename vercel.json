@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "regions": "gru1",
+  "regions": ["gru1"],
   "builds": [
     {
       "src": "src/index.ts",
