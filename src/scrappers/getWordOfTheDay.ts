@@ -1,9 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import {
-  createWordOfTheDay,
-  getWordOfTheDay,
-} from "../repository/wordOfTheDay.repository";
+import WordOfTheDayRepository from "../repository/wordOfTheDay.repository";
 import { envConfig } from "../configs/env.config";
 
 const {
@@ -46,7 +43,9 @@ export const getWordOfDay = async () => {
   const currentDate = getCurrentDate();
   console.log("Data atual:", currentDate);
 
-  const wordOfTheDay = await getWordOfTheDay(currentDate);
+  const wordOfTheDay = await WordOfTheDayRepository.getWordOfTheDay(
+    currentDate
+  );
 
   if (wordOfTheDay) {
     console.log("Palavra do dia encontrada no banco de dados");
@@ -99,7 +98,7 @@ export const getWordOfDay = async () => {
     image: imageBase64,
   };
 
-  await createWordOfTheDay(wordOfTheDayData);
+  await WordOfTheDayRepository.createWordOfTheDay(wordOfTheDayData);
 
   return wordOfTheDayData;
 };

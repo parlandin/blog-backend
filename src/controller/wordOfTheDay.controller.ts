@@ -1,45 +1,39 @@
 import { Request, Response } from "express";
-import { getWordOfDay } from "../scrappers/getWordOfDay";
+import WordOfTheDayService from "../services/wordOfTheDayService";
 
-export const getWordOfDayJsonController = async (
-  req: Request,
-  res: Response
-) => {
-  try {
-    let data = await getWordOfDay();
+class WordOfTheDayController {
+  static async getWordOfDayJson(req: Request, res: Response) {
+    try {
+      let data = await WordOfTheDayService.getWordInJson();
 
-    const { image, ...rest } = data;
+      res.setHeader("CDN-Cache-Control", "max-age=3600");
+      res.setHeader("Cache-Control", "max-age=3600");
 
-    res.json({
-      ...rest,
-      credits: "todos os direitos de: https://www.dicio.com.br/",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Erro ao buscar palavra do dia");
+      res.json(data);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Erro ao buscar palavra do dia");
+    }
   }
-};
 
-export const getWordOfDayImageController = async (
-  req: Request,
-  res: Response
-) => {
-  try {
-    let data = await getWordOfDay();
+  static async getWordOfDayImage(req: Request, res: Response) {
+    try {
+      let imgBuffer = await WordOfTheDayService.getWordImage();
 
-    const { image, ...rest } = data;
+      res.setHeader("CDN-Cache-Control", "max-age=3600");
+      res.setHeader("Cache-Control", "max-age=3600");
 
-    //@ts-ignore
-    const imgBuffer = Buffer.from(image, "base64");
+      res.writeHead(200, {
+        "Content-Type": "image/jpeg",
+        "Content-Length": imgBuffer.length,
+      });
 
-    res.writeHead(200, {
-      "Content-Type": "image/jpeg", // ou 'image/png' dependendo do tipo da imagem
-      "Content-Length": imgBuffer.length,
-    });
-
-    res.end(imgBuffer);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Erro ao buscar imagem");
+      res.end(imgBuffer);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Erro ao buscar imagem");
+    }
   }
-};
+}
+
+export default WordOfTheDayController;

@@ -12,28 +12,32 @@ interface WordOfTheDay {
   image: string | null;
 }
 
-export const createWordOfTheDay = async (data: WordOfTheDay) => {
-  const wordOfTheDay = await DB.create({
-    data,
-  });
-  return wordOfTheDay;
-};
+class WordOfTheDayRepository {
+  static async createWordOfTheDay(data: WordOfTheDay) {
+    const wordOfTheDay = await DB.create({
+      data,
+    });
+    return wordOfTheDay;
+  }
 
-export const getWordOfTheDay = async (date: string) => {
-  const wordOfTheDay = await DB.findFirst({
-    where: {
-      date,
-    },
+  static async getWordOfTheDay(date: string) {
+    const wordOfTheDay = await DB.findFirst({
+      where: {
+        date,
+      },
 
-    select: {
-      date: true,
-      word: true,
-      sub: true,
-      meanings: true,
-      etimology: true,
-      image: true,
-    },
-  });
+      select: {
+        date: true,
+        word: true,
+        sub: true,
+        meanings: true,
+        etimology: true,
+        image: true,
+      },
+    });
 
-  return wordOfTheDay;
-};
+    return wordOfTheDay;
+  }
+}
+
+export default WordOfTheDayRepository;
