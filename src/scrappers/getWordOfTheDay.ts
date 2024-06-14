@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import WordOfTheDayRepository from "../repository/wordOfTheDay.repository";
+import WordOfTheDayRepository from "../repositories/wordOfTheDay.repository";
 import { envConfig } from "../configs/env.config";
 
 const {

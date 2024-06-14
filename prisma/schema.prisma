@@ -23,3 +23,27 @@ model WordOfTheDay {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+//endpoint: string;
+//expirationTime: number | null;
+//keys: {
+// auth: string;
+//p256dh: string;
+//};
+
+model NotificationPush {
+  id             String   @id @default(cuid())
+  endpoint       String   @unique
+  expirationTime Int?
+  keys           Key?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Key {
+  id             String           @id @default(cuid())
+  auth           String           @unique
+  p256dh         String           @unique
+  Subscription   NotificationPush @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  subscriptionId String           @unique
+}
