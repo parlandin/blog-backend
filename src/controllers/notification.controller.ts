@@ -5,11 +5,19 @@ class NotificationController {
   static async subscribe(req: Request, res: Response) {
     try {
       const subscription = req.body;
-      await NotificationService.subscribe(subscription);
+      const result = await NotificationService.subscribe(subscription);
 
-      return res.status(201).json({ message: "Subscription successful" });
+      if (result === "error-subscription-required") {
+        return res.status(400).json({ message: "error-subscription-required" });
+      }
+
+      if (result === "error-subscription-exists") {
+        return res.status(400).json({ message: "error-subscription-exists" });
+      }
+
+      return res.status(201).json({ message: "subscription-successful" });
     } catch (error) {
-      return res.status(500).json({ message: "Subscription failed" });
+      return res.status(500).json({ message: "subscription-failed" });
     }
   }
 
@@ -47,6 +55,7 @@ class NotificationController {
       await NotificationService.sendNotification();
       return res.status(200).json({ message: "Notification sent" });
     } catch (error) {
+      console.log(`Send notification error: ${error}`);
       return res.status(500).json({ message: "Failed to send notification" });
     }
   }

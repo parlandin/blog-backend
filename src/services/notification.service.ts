@@ -16,26 +16,19 @@ class NotificationService {
   }
 
   static async subscribe(subscription: any) {
-    const payload = JSON.stringify({
-      title: "Parece que deu tudo certo!",
-      body: "Você agora está inscrito para receber a palavra do dia diariamente! as 8h da manhã!",
-    });
-
     if (!subscription) {
-      return;
+      return "error-subscription-required";
     }
 
     const subscriptionExists = await this.validadeIfExist(subscription);
 
     if (subscriptionExists.exist) {
-      return;
+      return "error-subscription-exists";
     }
 
     await NotificationRepository.create(subscription as Subscription);
 
-    await webPush.sendNotification(subscription, payload);
-
-    return;
+    return "success";
   }
 
   static async validadeIfExist(subscription: any) {
