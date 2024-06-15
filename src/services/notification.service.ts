@@ -48,8 +48,6 @@ class NotificationService {
   }
 
   static async unsubscribe(subscription: any) {
-    console.log({ subscription });
-
     if (!subscription) {
       return "error-subscription-required";
     }
@@ -66,11 +64,7 @@ class NotificationService {
       return "error-subscription-not-exists";
     }
 
-    console.log({ validadeIfExist });
-
-    const data = await NotificationRepository.delete(id);
-
-    console.log({ data });
+    await NotificationRepository.delete(id);
 
     return "success";
   }
