@@ -11,6 +11,8 @@ declare global {
 
       SCRAPPER_WORD_OF_DAY_URL: string;
 
+      SEND_WORD_OF_DAY_PERMISSION_KEY: string;
+
       NODE_ENV: "development" | "production";
     }
   }

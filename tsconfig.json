@@ -33,16 +33,15 @@
     "paths": {
       "@/*": ["src/*"],
       "@routes/*": ["./src/routes/*"],
-      "@controller/*": ["src/controller/*"],
+      "@controller/*": ["src/controllers/*"],
       "@middleware/*": ["src/middleware/*"],
       "@service/*": ["src/service/*"],
-      "@repository/*": ["src/repository/*"],
+      "@repository/*": ["src/repositories/*"],
       "@scrappers/*": ["src/scrappers/*"],
       "@config/*": ["src/config/*"],
       "@types/*": ["src/types/*"],
-      "@utils/*": ["src/utils/*"],
-
-    },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
+      "@utils/*": ["src/utils/*"]
+    } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
     // "types": [],                                      /* Specify type package names to be included without being referenced in a source file. */
@@ -113,7 +112,7 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  
+
   "ts-node": {
     // Do not forget to `npm i -D tsconfig-paths`
     "require": ["tsconfig-paths/register"]

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import WordOfTheDayService from "../services/wordOfTheDayService";
+import WordOfTheDayService from "../services/wordOfTheDay.service";
 
 class WordOfTheDayController {
   static async getWordOfDayJson(req: Request, res: Response) {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import WordOfTheDayController from "../controller/wordOfTheDay.controller";
+import WordOfTheDayController from "../controllers/wordOfTheDay.controller";
 
 const dayRoute = Router();
 
