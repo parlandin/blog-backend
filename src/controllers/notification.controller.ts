@@ -24,6 +24,7 @@ class NotificationController {
   static async unsubscribe(req: Request, res: Response) {
     try {
       const subscription = req.body;
+
       const subscriptionData = await NotificationService.unsubscribe(
         subscription
       );
@@ -56,7 +57,7 @@ class NotificationController {
 
   static async sendNotification(req: Request, res: Response) {
     try {
-      const permissionKey = req.body.permissionKey;
+      const permissionKey = req.headers["x-custom-authorization-key"];
 
       if (!permissionKey) {
         return res.status(400).json({ message: "Permission key is required" });
