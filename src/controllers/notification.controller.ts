@@ -24,9 +24,23 @@ class NotificationController {
   static async unsubscribe(req: Request, res: Response) {
     try {
       const subscription = req.body;
-      await NotificationService.unsubscribe(subscription);
+      const subscriptionData = await NotificationService.unsubscribe(
+        subscription
+      );
+
+      if (subscriptionData === "error-subscription-required") {
+        return res.status(400).json({ message: "error-subscription-required" });
+      }
+
+      if (subscriptionData === "error-subscription-not-exists") {
+        return res
+          .status(400)
+          .json({ message: "error-subscription-not-exists" });
+      }
+
       return res.status(200).json({ message: "Unsubscription successful" });
     } catch (error) {
+      console.log(`Unsubscription error: ${error}`);
       return res.status(500).json({ message: "Unsubscription failed" });
     }
   }

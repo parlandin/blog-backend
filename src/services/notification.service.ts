@@ -48,27 +48,31 @@ class NotificationService {
   }
 
   static async unsubscribe(subscription: any) {
-    const message = { message: "Subscription not found" };
+    console.log({ subscription });
 
     if (!subscription) {
-      return message;
+      return "error-subscription-required";
     }
 
     const validadeIfExist = await this.validadeIfExist(subscription);
 
     if (!validadeIfExist.exist) {
-      return message;
+      return "error-subscription-not-exists";
     }
 
-    const id = validadeIfExist.subscription?.id;
+    const id = validadeIfExist.subscription?.subscriptionId;
 
     if (!id) {
-      return message;
+      return "error-subscription-not-exists";
     }
 
-    await NotificationRepository.delete(id);
+    console.log({ validadeIfExist });
 
-    return { message: "Subscription deleted" };
+    const data = await NotificationRepository.delete(id);
+
+    console.log({ data });
+
+    return "success";
   }
 
   static async sendNotification() {
