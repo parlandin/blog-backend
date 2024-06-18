@@ -1,5 +1,13 @@
 import chalk from "chalk";
-import figlet from "figlet";
+import figlet, { Fonts } from "figlet";
+
+const font: Fonts[] = [
+  "Ghost",
+  "Graceful",
+  "ANSI Shadow",
+  "Delta Corps Priest 1",
+  "Elite",
+];
 
 const chalkRainbow = (text: string | any) => {
   if (typeof text !== "string") {
@@ -24,7 +32,7 @@ const initMessage = () => {
   figlet.text(
     "Parlan API",
     {
-      font: "Ghost",
+      font: font[1],
       horizontalLayout: "default",
       verticalLayout: "default",
       width: 100,
