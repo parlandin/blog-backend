@@ -18,7 +18,7 @@ export function onlyAllowCorsInMyClient(
   next: NextFunction
 ) {
   const allowedOrigins = [process.env.FRONTEND_URL as string];
-  console.table({ allowedOrigins, origin: req.headers.origin });
+  console.table({ allowedOrigins, headers: req.headers });
 
   if (allowedOrigins.includes(req.headers.origin as string)) {
     res.header("Access-Control-Allow-Origin", req.headers.origin);
