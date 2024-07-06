@@ -10,6 +10,7 @@ export const envConfig = {
   DATABASE: {
     URI: process.env.DATABASE_URI || "",
   },
+  MONGO_URL: process.env.MONGO_URL || "",
 
   SCRAPPER: {
     WORD_OF_DAY_URL: process.env.SCRAPPER_WORD_OF_DAY_URL || "",
