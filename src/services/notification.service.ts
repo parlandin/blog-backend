@@ -3,6 +3,7 @@ import webPush, { WebPushError } from "web-push";
 import NotificationRepository, {
   Subscription,
 } from "../repositories/notification.repository";
+import logger from "../configs/pinoLogger.config";
 
 const {
   NOTIFICATION: { PUSH_PRIVATE_KEY, PUSH_PUBLIC_KEY, PUSH_VAPID_SUBJECT },
@@ -111,7 +112,7 @@ class NotificationService {
     const urls = results
       .filter((result) => result.status === "rejected")
       .map((result) => {
-        console.log({ result });
+        logger.debug({ result });
         const error = result as PromiseRejectedResult;
         const errorValue = error.reason as WebPushError;
         return errorValue.endpoint;
@@ -119,7 +120,7 @@ class NotificationService {
 
     if (urls.length > 0) {
       await this.deleteNotificationOnExpiry(urls, listOfSubscriptions);
-      console.log(`${urls.length} notifications deleted because is expired`);
+      logger.info(`${urls.length} notifications deleted because is expired`);
     }
 
     return;

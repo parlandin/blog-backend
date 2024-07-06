@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import WordOfTheDayService from "../services/wordOfTheDay.service";
+import logger from "../configs/pinoLogger.config";
 
 class WordOfTheDayController {
   static async getWordOfDayJson(req: Request, res: Response) {
@@ -11,7 +12,7 @@ class WordOfTheDayController {
 
       res.json(data);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       res.status(500).send("Erro ao buscar palavra do dia");
     }
   }
@@ -30,7 +31,7 @@ class WordOfTheDayController {
 
       res.end(imgBuffer);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       res.status(500).send("Erro ao buscar imagem");
     }
   }

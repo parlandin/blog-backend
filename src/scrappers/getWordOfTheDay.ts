@@ -2,6 +2,7 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import WordOfTheDayRepository from "../repositories/wordOfTheDay.repository";
 import { envConfig } from "../configs/env.config";
+import logger from "../configs/pinoLogger.config";
 
 const {
   SCRAPPER: { WORD_OF_DAY_URL },
@@ -34,25 +35,25 @@ async function paseImageToBase64(image: string): Promise<string | null> {
     const buffer = Buffer.from(response.data, "binary");
     return buffer.toString("base64");
   } catch (error) {
-    console.error("Erro ao converter imagem:", error);
+    logger.error(`Erro ao converter imagem: \n${error}`);
     return null;
   }
 }
 
 export const getWordOfDay = async () => {
   const currentDate = getCurrentDate();
-  console.log("Data atual:", currentDate);
+  logger.debug(`Data atual:  ${currentDate}`);
 
   const wordOfTheDay = await WordOfTheDayRepository.getWordOfTheDay(
     currentDate
   );
 
   if (wordOfTheDay) {
-    console.log("Palavra do dia encontrada no banco de dados");
+    logger.debug("Palavra do dia encontrada no banco de dados");
     return wordOfTheDay;
   }
 
-  console.log("Buscando palavra do dia");
+  logger.info("Buscando palavra do dia");
 
   //buscar a data atual no banco de dados e retornar a palavra do dia
 
