@@ -4,7 +4,7 @@ import notificationRouter from "./notification.route";
 
 const allRoutes = Router();
 
-allRoutes.get("/", (req, res) => {
+allRoutes.get("/", (_req, res) => {
   res.send("api is running");
 });
 
