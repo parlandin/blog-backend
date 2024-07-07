@@ -31,6 +31,7 @@ class VisitCounter {
         visit.uniqueIPs.push(req.ip);
         visit.uniqueVisitors += 1;
         visit.newVisitors += 1;
+        logger.debug("New visitor detected.");
 
         if (isMobile) {
           visit.uniqueMobileVisitors += 1;
