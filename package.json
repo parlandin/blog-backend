@@ -24,6 +24,7 @@
     "express": "^4.19.2",
     "express-useragent": "^1.0.15",
     "figlet": "^1.7.0",
+    "moment": "^2.30.1",
     "mongoose": "^8.4.5",
     "pino": "^9.2.0",
     "pino-http": "^10.2.0",
