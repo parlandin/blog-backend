@@ -1,5 +1,6 @@
 import NotificationService from "../services/notification.service";
 import { Request, Response } from "express";
+import logger from "../configs/pinoLogger.config";
 
 class NotificationController {
   static async subscribe(req: Request, res: Response) {
@@ -17,6 +18,7 @@ class NotificationController {
 
       return res.status(201).json({ message: "subscription-successful" });
     } catch (error) {
+      logger.error(`Subscription error: ${error}`);
       return res.status(500).json({ message: "subscription-failed" });
     }
   }
@@ -41,7 +43,7 @@ class NotificationController {
 
       return res.status(200).json({ message: "Unsubscription successful" });
     } catch (error) {
-      console.log(`Unsubscription error: ${error}`);
+      logger.error(`Unsubscription error: ${error}`);
       return res.status(500).json({ message: "Unsubscription failed" });
     }
   }
@@ -51,6 +53,7 @@ class NotificationController {
       const publicKey = NotificationService.getPublicKey();
       return res.status(200).json({ publicKey });
     } catch (error) {
+      logger.error(`Get public key error: ${error}`);
       return res.status(500).json({ message: "Failed to get public key" });
     }
   }
@@ -70,7 +73,7 @@ class NotificationController {
       await NotificationService.sendNotification();
       return res.status(200).json({ message: "Notification sent" });
     } catch (error) {
-      console.log(`Send notification error: ${error}`);
+      logger.error(`Send notification error: ${error}`);
       return res.status(500).json({ message: "Failed to send notification" });
     }
   }

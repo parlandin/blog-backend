@@ -1,14 +1,25 @@
 import { envConfig } from "../configs/env.config";
-import webPush from "web-push";
+import webPush, { WebPushError } from "web-push";
 import NotificationRepository, {
   Subscription,
 } from "../repositories/notification.repository";
+import logger from "../configs/pinoLogger.config";
 
 const {
   NOTIFICATION: { PUSH_PRIVATE_KEY, PUSH_PUBLIC_KEY, PUSH_VAPID_SUBJECT },
 } = envConfig;
 
 webPush.setVapidDetails(PUSH_VAPID_SUBJECT, PUSH_PUBLIC_KEY, PUSH_PRIVATE_KEY);
+
+interface SubscriptionData {
+  id: string;
+  keys: {
+    auth: string;
+    p256dh: string;
+  } | null;
+  endpoint: string;
+  expirationTime: number | null;
+}
 
 class NotificationService {
   static getPublicKey() {
@@ -83,7 +94,10 @@ class NotificationService {
       }
       return new Promise(async (resolve, reject) => {
         await webPush
-          .sendNotification(subscription as Subscription, payload)
+          .sendNotification(subscription as Subscription, payload, {
+            TTL: 54000,
+            topic: "palavra-do-dia",
+          })
           .then(() => {
             resolve("Notification sent!");
           })
@@ -93,9 +107,36 @@ class NotificationService {
       });
     });
 
-    await Promise.all(promises);
+    const results = await Promise.allSettled(promises);
+
+    const urls = results
+      .filter((result) => result.status === "rejected")
+      .map((result) => {
+        logger.debug({ result });
+        const error = result as PromiseRejectedResult;
+        const errorValue = error.reason as WebPushError;
+        return errorValue.endpoint;
+      });
+
+    if (urls.length > 0) {
+      await this.deleteNotificationOnExpiry(urls, listOfSubscriptions);
+      logger.info(`${urls.length} notifications deleted because is expired`);
+    }
 
     return;
+  }
+
+  static async deleteNotificationOnExpiry(
+    urls: string[],
+    data: SubscriptionData[]
+  ) {
+    data.map(async (subscription) => {
+      urls.map(async (url) => {
+        if (subscription.endpoint === url) {
+          await NotificationRepository.delete(subscription.id);
+        }
+      });
+    });
   }
 }
 
