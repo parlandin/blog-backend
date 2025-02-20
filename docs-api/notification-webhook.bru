@@ -1,0 +1,15 @@
+meta {
+  name: notification-webhook
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/notification/push/send
+  body: none
+  auth: none
+}
+
+headers {
+  x-custom-authorization-key: 
+}
