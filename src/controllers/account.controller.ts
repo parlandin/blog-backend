@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import accountService from "../services/account.service";
+import HttpError from "../utils/httpError";
+import handleUnknownError from "../middlewares/handleUnknownError";
 
 class AccountController {
   async getAccount(req: Request, res: Response) {
@@ -9,10 +11,10 @@ class AccountController {
 
       return res.json(account);
     } catch (error) {
-      if (error instanceof Error) {
-        return res.status(400).json({ error: error.message });
+      if (error instanceof HttpError) {
+        return res.status(error.statusCode).json({ error: error.message });
       }
-      return res.status(400).json({ error: "Unknown error" });
+      return handleUnknownError(res, error);
     }
   }
 
@@ -23,10 +25,10 @@ class AccountController {
 
       return res.status(201).json(account);
     } catch (error) {
-      if (error instanceof Error) {
-        return res.status(400).json({ error: error.message });
+      if (error instanceof HttpError) {
+        return res.status(error.statusCode).json({ error: error.message });
       }
-      return res.status(400).json({ error: "Unknown error" });
+      return handleUnknownError(res, error);
     }
   }
 
@@ -37,10 +39,10 @@ class AccountController {
 
       return res.json(account);
     } catch (error) {
-      if (error instanceof Error) {
-        return res.status(400).json({ error: error.message });
+      if (error instanceof HttpError) {
+        return res.status(error.statusCode).json({ error: error.message });
       }
-      return res.status(400).json({ error: "Unknown error" });
+      return handleUnknownError(res, error);
     }
   }
 
@@ -51,10 +53,10 @@ class AccountController {
 
       return res.json(account);
     } catch (error) {
-      if (error instanceof Error) {
-        return res.status(400).json({ error: error.message });
+      if (error instanceof HttpError) {
+        return res.status(error.statusCode).json({ error: error.message });
       }
-      return res.status(400).json({ error: "Unknown error" });
+      return handleUnknownError(res, error);
     }
   }
 }

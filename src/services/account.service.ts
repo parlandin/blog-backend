@@ -1,5 +1,6 @@
 import CryptoService from "../utils/crypto";
 import userAccount from "../models/userAccount.model";
+import HttpError from "../utils/httpError";
 
 class AccountService {
   async getAccount(userName: string) {
@@ -7,7 +8,7 @@ class AccountService {
       .findOne({ username: userName })
       .lean()
       .select("username -_id");
-    if (!account) throw new Error("Conta não encontrada!");
+    if (!account) throw new HttpError("Conta não encontrada!", 404);
 
     return account;
   }
@@ -26,37 +27,46 @@ class AccountService {
       cover: avatar,
     });
 
-    await account.save();
+    try {
+      await account.save();
+    } catch (error: any) {
+      if (error.code === 11000) {
+        throw new HttpError("Username já existe!", 409);
+      }
+      throw new HttpError("Erro ao criar conta!", 500);
+    }
 
-    return account;
+    return { username: account.username };
   }
 
   async login(userName: string, code: string) {
     const account = await userAccount
-      .findOne({ username: userName, code })
+      .findOne({ username: userName })
       .lean()
       .select("username email code");
 
-    if (!account) throw new Error("Conta não encontrada!");
+    if (!account) throw new HttpError("Conta não encontrada!", 404);
 
-    const email = CryptoService.decrypt(account.email);
+    if (account.code !== code) throw new HttpError("Código inválido!", 400);
 
-    return { ...account, email };
+    //const email = CryptoService.decrypt(account.email);
+
+    return { username: account.username };
   }
 
   async validateCode(userName: string, code: string) {
     const account = await userAccount
       .findOne({ username: userName, code })
       .lean()
-      .select("username  code");
+      .select("username code codeExpiresAt");
 
-    if (!account) throw new Error("Código inválido!");
+    if (!account) throw new HttpError("Código inválido!", 400);
 
     if (new Date() > new Date(account.codeExpiresAt)) {
-      throw new Error("Código expirado!");
+      throw new HttpError("Código expirado!", 400);
     }
 
-    return account;
+    return "valid-code";
   }
 
   async updateAccount() {}
