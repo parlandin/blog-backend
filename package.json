@@ -13,7 +13,6 @@
     "prisma:studio": "prisma studio",
     "vercel-build": "npx prisma generate && npx prisma migrate deploy",
     "build": "tsc",
-    "postinstall": "yarn run build",
     "start": "node dist/index.js"
   },
   "dependencies": {
@@ -25,7 +24,9 @@
     "express": "^4.19.2",
     "express-useragent": "^1.0.15",
     "figlet": "^1.7.0",
+    "image-size": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
+    "mime-types": "^2.1.35",
     "moment": "^2.30.1",
     "mongoose": "^8.4.5",
     "nanoid": "^5.1.2",
@@ -40,6 +41,7 @@
     "@types/express-useragent": "^1.0.5",
     "@types/figlet": "^1.5.8",
     "@types/jsonwebtoken": "^9.0.9",
+    "@types/mime-types": "^2.1.4",
     "@types/node": "^20.14.2",
     "@types/web-push": "^3.6.3",
     "dotenv": "^16.4.5",
