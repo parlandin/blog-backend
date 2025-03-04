@@ -12,7 +12,9 @@ class AccountService {
   ) {
     const hasAccount = await this.getAccount(username);
 
-    if (hasAccount) throw new HttpError("Username já existe!", 409);
+    if (hasAccount) {
+      throw new HttpError("Username já existe!", 409);
+    }
 
     const avatar = profilePic
       ? profilePic
@@ -55,7 +57,7 @@ class AccountService {
 
   private async getAccount(username: string) {
     const account = await userAccount
-      .findOne({ username })
+      .findOne({ username: { $eq: username } })
       .lean()
       .select("username cover");
 

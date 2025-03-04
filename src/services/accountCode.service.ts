@@ -7,14 +7,14 @@ import { generateCodeImage } from "@/utils/generateCodeImage";
 class AccountCodeService {
   async createAccountCode(username: string) {
     const account = await userAccountModel
-      .findOne({ username })
+      .findOne({ username: { $eq: username } })
       .lean()
       .select("username");
 
     const isAccountCode = await accountCodeModel
       .findOne({ username })
       .lean()
-      .select("username code codeExpires codeExpiresAt");
+      .select("username   codeExpiresAt");
 
     if (account) throw new HttpError("Esse usuário já existe!", 404);
 
@@ -23,7 +23,7 @@ class AccountCodeService {
         throw new HttpError("Código já foi gerado!", 400);
       }
 
-      await accountCodeModel.deleteOne({ username });
+      await accountCodeModel.deleteOne({ username: { $eq: username } });
     }
 
     const randomCode = await simpleId(6);
