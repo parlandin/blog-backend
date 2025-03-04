@@ -26,7 +26,7 @@ class AccountCodeService {
       await accountCodeModel.deleteOne({ username });
     }
 
-    const randomCode = await simpleId(8);
+    const randomCode = await simpleId(6);
     const codeExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
     const param = await nanoId(10);
@@ -57,8 +57,6 @@ class AccountCodeService {
       .lean()
       .select("userName code codeExpiresAt");
 
-    console.log({ accountCode });
-
     if (!accountCode) throw new HttpError("Código inválido!", 400);
 
     if (new Date() > new Date(accountCode.codeExpiresAt)) {
@@ -68,9 +66,9 @@ class AccountCodeService {
     return { username: accountCode.username };
   }
 
-  async deleteAccountCode(userName: string) {
+  async deleteAccountCode(username: string) {
     await accountCodeModel.deleteOne({
-      userName,
+      username,
     });
 
     return { message: "Código deletado com sucesso!" };
