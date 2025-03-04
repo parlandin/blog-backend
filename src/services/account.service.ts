@@ -2,7 +2,7 @@ import userAccount, { IUserAccount } from "../models/userAccount.model";
 import HttpError from "../utils/httpError";
 import { hashPassword, comparePassword } from "../utils/bcrypt";
 import accountCodeService from "./accountCode.service";
-import { jwtSign } from "@/utils/jwt";
+import { jwtSign } from "../utils/jwt";
 
 class AccountService {
   async createAccount(

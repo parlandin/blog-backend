@@ -2,7 +2,7 @@ import accountCodeModel from "../models/accountCode.model";
 import { nanoId, simpleId } from "../utils/nanoId";
 import HttpError from "../utils/httpError";
 import userAccountModel from "../models/userAccount.model";
-import { generateCodeImage } from "@/utils/generateCodeImage";
+import { generateCodeImage } from "../utils/generateCodeImage";
 
 class AccountCodeService {
   async createAccountCode(username: string) {
