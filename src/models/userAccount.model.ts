@@ -4,6 +4,9 @@ export interface IUserAccount extends Document {
   username: string;
   password: string;
   cover?: string;
+  role?: string;
+  level?: number;
+  xp?: number;
   created?: Date;
   updated?: Date;
 }
