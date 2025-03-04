@@ -24,8 +24,8 @@ class AccountController {
 
   async login(req: Request, res: Response) {
     try {
-      const { userName, code } = req.body;
-      const account = await accountService.login(userName, code);
+      const { username, password } = req.body;
+      const account = await accountService.login(username, password);
 
       return res.json(account);
     } catch (error) {

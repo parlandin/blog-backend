@@ -1,7 +1,8 @@
-import userAccount from "../models/userAccount.model";
+import userAccount, { IUserAccount } from "../models/userAccount.model";
 import HttpError from "../utils/httpError";
 import { hashPassword, comparePassword } from "../utils/bcrypt";
 import accountCodeService from "./accountCode.service";
+import { jwtSign } from "@/utils/jwt";
 
 class AccountService {
   async createAccount(
@@ -39,7 +40,10 @@ class AccountService {
       throw new HttpError("Erro ao criar conta!", 500);
     }
     await accountCodeService.deleteAccountCode(username);
-    return { username: account.username };
+
+    const response = this.formatResponse(account);
+
+    return response;
   }
 
   async login(userName: string, password: string) {
@@ -52,16 +56,29 @@ class AccountService {
     if (!isPasswordValid)
       throw new HttpError("Username ou senha incorreto!", 404);
 
-    return { username: account.username };
+    const response = this.formatResponse(account);
+    return response;
   }
 
   private async getAccount(username: string) {
     const account = await userAccount
       .findOne({ username: { $eq: username } })
       .lean()
-      .select("username cover");
+      .select("username cover password role level xp  -_id");
 
     return account;
+  }
+
+  private formatResponse(account: IUserAccount) {
+    const token = jwtSign({ username: account.username });
+    const user = {
+      username: account.username,
+      cover: account.cover,
+      role: account.role,
+      level: account.level,
+    };
+
+    return { user, token };
   }
 
   async updateAccount() {}
