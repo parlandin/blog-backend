@@ -1,5 +1,5 @@
 import accountCodeModel from "../models/accountCode.model";
-import { nanoId } from "../utils/nanoId";
+import { nanoId, simpleId } from "../utils/nanoId";
 import HttpError from "../utils/httpError";
 import userAccountModel from "../models/userAccount.model";
 import { generateCodeImage } from "@/utils/generateCodeImage";
@@ -26,7 +26,7 @@ class AccountCodeService {
       await accountCodeModel.deleteOne({ username });
     }
 
-    const randomCode = await nanoId(6);
+    const randomCode = await simpleId(8);
     const codeExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
     const param = await nanoId(10);
