@@ -1,6 +1,6 @@
 import userAccount from "../models/userAccount.model";
 import HttpError from "../utils/httpError";
-import { hashPassword } from "../utils/bcrypt";
+import { hashPassword, comparePassword } from "../utils/bcrypt";
 import accountCodeService from "./accountCode.service";
 
 class AccountService {
@@ -26,6 +26,8 @@ class AccountService {
 
     try {
       await account.save();
+
+      await accountCodeService.deleteAccountCode(username);
     } catch (error: any) {
       if (error.code === 11000) {
         throw new HttpError("Username já existe!", 409);
@@ -42,17 +44,18 @@ class AccountService {
     return { username: account.username };
   }
 
-  async login(userName: string, code: string) {
+  async login(userName: string, password: string) {
     const account = await userAccount
       .findOne({ username: userName })
       .lean()
       .select("username email code");
 
-    if (!account) throw new HttpError("Conta não encontrada!", 404);
+    if (!account) throw new HttpError("Username ou senha incorreto!", 404);
 
-    /* if (account.code !== code) throw new HttpError("Código inválido!", 400);
-     */
-    //const email = CryptoService.decrypt(account.email);
+    const isPasswordValid = await comparePassword(password, account.password);
+
+    if (!isPasswordValid)
+      throw new HttpError("Username ou senha incorreto!", 404);
 
     return { username: account.username };
   }
