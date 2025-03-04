@@ -2,6 +2,7 @@ import accountCodeModel from "../models/accountCode.model";
 import { nanoId } from "../utils/nanoId";
 import HttpError from "../utils/httpError";
 import userAccountModel from "../models/userAccount.model";
+import { generateCodeImage } from "@/utils/generateCodeImage";
 
 class AccountCodeService {
   async createAccountCode(username: string) {
@@ -83,7 +84,9 @@ class AccountCodeService {
 
     if (!accountCode) throw new HttpError("Código não encontrado!", 404);
 
-    return { code: accountCode.code };
+    const image = generateCodeImage(accountCode.code);
+
+    return image;
   }
 }
 

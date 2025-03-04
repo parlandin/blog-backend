@@ -2,6 +2,7 @@ import handleUnknownError from "../middlewares/handleUnknownError";
 import HttpError from "../utils/httpError";
 import { Request, Response } from "express";
 import accountCodeService from "../services/accountCode.service";
+import { generateCodeHtml } from "../utils/codeHtml";
 
 class AccountCodeController {
   async generateCode(req: Request, res: Response) {
@@ -23,9 +24,10 @@ class AccountCodeController {
     try {
       const { param } = req.params;
 
-      const { code } = await accountCodeService.getAccountCode(param);
+      const code = await accountCodeService.getAccountCode(param);
 
-      return res.json({ code });
+      const html = generateCodeHtml(code);
+      return res.send(html);
     } catch (error) {
       if (error instanceof HttpError) {
         return res.status(404).send("This page not found");
