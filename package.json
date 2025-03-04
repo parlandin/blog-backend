@@ -33,7 +33,8 @@
     "pino": "^9.2.0",
     "pino-http": "^10.2.0",
     "pino-pretty": "7.0.0",
-    "web-push": "^3.6.7"
+    "web-push": "^3.6.7",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
