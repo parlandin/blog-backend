@@ -10,7 +10,7 @@ import {
   accountCodeSchema,
   accountLoginSchema,
   getAccountParamsSchema,
-} from "src/schemas/accountSchema";
+} from "../schemas/accountSchema";
 
 const accountRouter = Router();
 
