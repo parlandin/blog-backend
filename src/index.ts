@@ -1,6 +1,6 @@
 import express from "express";
 import allRoutes from "./routes/allRoutes.route";
-import cors from "./middlewares/cors";
+import cors from "./middlewares/cors.middleware";
 import { envConfig } from "./configs/env.config";
 import initMessage from "./utils/initMessage";
 import loggerHTTP from "./configs/httpLogger.config";
