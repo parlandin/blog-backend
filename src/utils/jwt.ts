@@ -4,6 +4,7 @@ const secret = process.env.JWT_SECRET || "secret";
 
 interface Payload {
   username: string;
+  role: "admin" | "user";
 }
 
 export const jwtSign = (payload: Payload) => {

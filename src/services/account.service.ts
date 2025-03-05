@@ -69,8 +69,22 @@ class AccountService {
     return account;
   }
 
+  async getAccountByUsername(username: string) {
+    const account = await this.getAccount(username);
+
+    if (!account) throw new HttpError("Conta não encontrada!", 404);
+
+    return this.formatResponse(account);
+  }
+
   private formatResponse(account: IUserAccount) {
-    const token = jwtSign({ username: account.username });
+    const token = jwtSign({
+      username: account.username,
+      role:
+        account.role === "admin" || account.role === "user"
+          ? account.role
+          : "user",
+    });
     const user = {
       username: account.username,
       cover: account.cover,
