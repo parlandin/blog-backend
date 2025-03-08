@@ -100,4 +100,4 @@ class AccountService {
   async deleteAccount() {}
 }
 
-export default new AccountService();
+export default AccountService;
