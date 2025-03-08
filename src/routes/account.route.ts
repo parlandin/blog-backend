@@ -1,4 +1,4 @@
-import { Router } from "express";
+/* import { Router } from "express";
 import accountController from "../controllers/account.controller";
 import accountCodeController from "../controllers/accountCode.controller";
 import {
@@ -38,3 +38,4 @@ accountRouter.get(
 );
 
 export default accountRouter;
+ */

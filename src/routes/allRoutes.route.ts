@@ -2,7 +2,7 @@ import { Router } from "express";
 import wordOfTheDayRoute from "./wordOfTheDay.route";
 import notificationRouter from "./notification.route";
 import visitsRouter from "./visits.route";
-import accountRouter from "./account.route";
+/* import accountRouter from "./account.route"; */
 
 const allRoutes = Router();
 
@@ -13,6 +13,6 @@ allRoutes.get("/", (_req, res) => {
 allRoutes.use("/get-word", wordOfTheDayRoute);
 allRoutes.use("/notification", notificationRouter);
 allRoutes.use("/views", visitsRouter);
-allRoutes.use("/account", accountRouter);
+/* allRoutes.use("/account", accountRouter); */
 
 export default allRoutes;
