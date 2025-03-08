@@ -16,7 +16,6 @@ function enableCORS(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
-export default enableCORS;
 
 
 export function onlyAllowCorsInMyClient(
