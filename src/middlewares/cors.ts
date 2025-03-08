@@ -7,7 +7,6 @@ function enableCORS(req: Request, res: Response, next: NextFunction) {
     "Access-Control-Allow-Headers",
     "Content-Type, Authorization, X-Fingerprint, X-Requested-With"
   );
-  res.header("Access-Control-Allow-Credentials", "true");
 
   if (req.method === "OPTIONS") {
     return res.sendStatus(204);
