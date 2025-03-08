@@ -15,16 +15,18 @@ export function Controller(prefix: string = "") {
   };
 }
 
-export function createMethodDecorator(method: RouteMetadata["method"]) {
-  return (path: string = "", ...middlewares: any[]) => {
+function createMethodDecorator(method: RouteMetadata["method"]) {
+  return (path: string = "", ...methodMiddlewares: any[]) => {
     return (target: any, propertyKey: string) => {
+      const classMiddlewares =
+        Reflect.getMetadata("middlewares", target, propertyKey) || [];
       const metadata: RouteMetadata[] =
         Reflect.getMetadata(ROUTE_METADATA_KEY, target.constructor) || [];
 
       metadata.push({
         method,
         path,
-        middlewares,
+        middlewares: [...classMiddlewares, ...methodMiddlewares],
         propertyKey,
       });
 
