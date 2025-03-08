@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 
-import { Request, Response, NextFunction } from "express";
-
 function enableCORS(req: Request, res: Response, next: NextFunction) {
   res.header("Access-Control-Allow-Origin", "*"); 
   res.header("Access-Control-Allow-Methods", "GET, OPTIONS");
