@@ -8,6 +8,7 @@ import {
   accountLoginSchema,
 } from "../schemas/accountSchema";
 import { InjectService } from "../decorators/inject.decorator";
+import { ResponseJson } from "../decorators/response.decorator";
 
 @Controller("/account")
 @InjectService(accountService)
@@ -17,20 +18,22 @@ class AccountController {
 
   @Post("/create")
   @ValidateBody(accountCreateSchema)
+  @ResponseJson()
   async createAccount(req: Request, res: Response) {
     const { username, password, code } = req.body;
 
     const account = await this.service.createAccount(username, code, password);
-    return res.status(201).json(account);
+    return account;
   }
 
   @Post("/login")
   @ValidateBody(accountLoginSchema)
+  @ResponseJson()
   async login(req: Request, res: Response) {
     const { username, password } = req.body;
 
     const account = await this.service.login(username, password);
-    return res.json(account);
+    return account;
   }
 }
 
