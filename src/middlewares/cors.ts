@@ -1,16 +1,25 @@
 import { Request, Response, NextFunction } from "express";
 
+import { Request, Response, NextFunction } from "express";
+
 function enableCORS(req: Request, res: Response, next: NextFunction) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*"); 
   res.header("Access-Control-Allow-Methods", "GET, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Fingerprint, X-Requested-With"
+  );
+  res.header("Access-Control-Allow-Credentials", "true");
 
   if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
+    return res.sendStatus(204);
   }
 
   next();
 }
+
+export default enableCORS;
+
 
 export function onlyAllowCorsInMyClient(
   req: Request,
