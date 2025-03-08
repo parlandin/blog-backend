@@ -49,12 +49,12 @@ class AccountService {
   async login(userName: string, password: string) {
     const account = await this.getAccount(userName);
 
-    if (!account) throw new HttpError("Username ou senha incorreto!", 404);
+    if (!account) throw new HttpError("Username ou senha incorreto!", 403);
 
     const isPasswordValid = await comparePassword(password, account.password);
 
     if (!isPasswordValid)
-      throw new HttpError("Username ou senha incorreto!", 404);
+      throw new HttpError("Username ou senha incorreto!", 403);
 
     const response = this.formatResponse(account);
     return response;
