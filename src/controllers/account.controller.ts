@@ -1,14 +1,17 @@
 import { Request, Response } from "express";
 import accountService from "../services/account.service";
-import { Controller, Post } from "../decorators/routes.decorators";
-import { CatchAll } from "../decorators/errorHandler.decorator";
-import { ValidateBody } from "../decorators/validation.decorator";
 import {
   accountCreateSchema,
   accountLoginSchema,
 } from "../schemas/accountSchema";
-import { InjectService } from "../decorators/inject.decorator";
-import { ResponseJson } from "../decorators/response.decorator";
+import {
+  Controller,
+  Post,
+  CatchAll,
+  ValidateBody,
+  InjectService,
+  ResponseJson,
+} from "../decorators";
 
 @Controller("/account")
 @InjectService(accountService)
