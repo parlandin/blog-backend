@@ -24,6 +24,7 @@
     "express": "^4.19.2",
     "express-useragent": "^1.0.15",
     "figlet": "^1.7.0",
+    "http-status-codes": "^2.3.0",
     "image-size": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
     "mime-types": "^2.1.35",
