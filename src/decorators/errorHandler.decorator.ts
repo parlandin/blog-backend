@@ -1,37 +1,28 @@
 import { NextFunction, Request, Response } from "express";
+import { ErrorHandler } from "../@types/responses.types";
+import { ResponseUtils } from "../utils/response.utils";
 import HttpError from "../utils/httpError";
 
-type ErrorHandler = (
-  error: unknown,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => void;
-
-export function Catch(errorHandler?: ErrorHandler) {
+export function Catch(errorHandler?: ErrorHandler): MethodDecorator {
   return function (
     target: any,
-    propertyKey: string,
+    propertyKey: string | symbol,
     descriptor: PropertyDescriptor
   ) {
     const originalMethod = descriptor.value;
 
     descriptor.value = async function (
-      ...args: [Request, Response, NextFunction]
+      ...args: [Request, Response, NextFunction, ...any[]]
     ) {
       const [req, res, next] = args;
 
       try {
-        await originalMethod.apply(this, args);
+        return await originalMethod.apply(this, args);
       } catch (error) {
         if (errorHandler) {
           errorHandler(error, req, res, next);
         } else {
-          if (error instanceof HttpError) {
-            res.status(error.statusCode).json({ error: error.message });
-          } else {
-            handleUnknownError(res, error);
-          }
+          handleDefaultError(res, error);
         }
       }
     };
@@ -40,7 +31,7 @@ export function Catch(errorHandler?: ErrorHandler) {
   };
 }
 
-export function CatchAll(errorHandler?: ErrorHandler) {
+export function CatchAll(errorHandler?: ErrorHandler): ClassDecorator {
   return function (constructor: any) {
     const methods = Object.getOwnPropertyNames(constructor.prototype);
 
@@ -50,20 +41,33 @@ export function CatchAll(errorHandler?: ErrorHandler) {
           constructor.prototype,
           methodName
         );
+
         if (descriptor && typeof descriptor.value === "function") {
-          const decorated = Catch(errorHandler)(
+          const decoratedDescriptor = Catch(errorHandler)(
             constructor.prototype,
             methodName,
             descriptor
           );
-          Object.defineProperty(constructor.prototype, methodName, decorated);
+
+          if (decoratedDescriptor) {
+            Object.defineProperty(
+              constructor.prototype,
+              methodName,
+              decoratedDescriptor
+            );
+          }
         }
       }
     });
   };
 }
 
-function handleUnknownError(res: Response, error: unknown) {
-  console.error("Unknown error:", error);
-  res.status(500).json({ error: "Internal server error" });
+function handleDefaultError(res: Response, error: unknown): void {
+  console.error("Error caught by decorator:", error);
+
+  if (error instanceof HttpError) {
+    ResponseUtils.sendError(res, error, error.statusCode);
+  } else {
+    ResponseUtils.sendError(res, error, 500);
+  }
 }
