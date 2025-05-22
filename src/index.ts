@@ -9,6 +9,7 @@ import useragent from "express-useragent";
 import "./configs/mongo.config";
 import { registerControllers } from "./utils/registerControllers";
 import AccountController from "./controllers/account.controller";
+import StatusController from "./controllers/status.controller";
 
 const app = express();
 const router = express.Router();
@@ -21,7 +22,7 @@ app.use(cors);
 app.use(useragent.express());
 app.use(loggerHTTP);
 
-registerControllers(allRoutes, [AccountController]);
+registerControllers(allRoutes, [AccountController, StatusController]);
 
 app.use(allRoutes);
 
